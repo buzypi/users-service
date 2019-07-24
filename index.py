@@ -5,12 +5,12 @@ import os
 
 app = Flask(__name__)
 client = MongoClient(host=os.environ['DB_HOST'])
-db = client.peopledb
+db = client.usersdb
 
 # This is only for the purpose of demo
-if db.person.count_documents({}) == 0:
-  db.person.insert({'name': 'John'})
-  db.person.insert({'name': 'George'})
+if db.user.count_documents({}) == 0:
+  db.user.insert({'name': 'John'})
+  db.user.insert({'name': 'George'})
 
 
 @app.route('/')
@@ -18,9 +18,9 @@ def hello():
   return 'Hello world!'
 
 
-@app.route('/people')
-def people():
-  people_list = []
-  for person in db.person.find():
-    people_list.append(person)
-  return dumps(people_list)
+@app.route('/users')
+def users():
+  users_list = []
+  for user in db.user.find():
+    users_list.append(user)
+  return dumps(users_list)

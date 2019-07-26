@@ -9,13 +9,13 @@ db = client.usersdb
 
 # This is only for the purpose of demo
 if db.user.count_documents({}) == 0:
-  db.user.insert({'name': 'John'})
-  db.user.insert({'name': 'George'})
+  db.user.insert({'userid': 1, 'name': 'John'})
+  db.user.insert({'userid': 2, 'name': 'George'})
 
 
-@app.route('/')
-def hello():
-  return 'Hello world!'
+@app.route('/ping')
+def ping():
+  return 'pong'
 
 
 @app.route('/users')
@@ -24,3 +24,8 @@ def users():
   for user in db.user.find():
     users_list.append(user)
   return dumps(users_list)
+
+
+@app.route('/user/<int:userid>')
+def user(userid):
+  return dumps(db.user.find_one({'userid': userid}))
